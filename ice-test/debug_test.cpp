@@ -36,8 +36,8 @@ TEST(debug, trace)
     ice::trace("Ok... So, what now?");
 
     std::this_thread::sleep_for(100ms);
-    const auto ref = "debug_test.cpp(34): TestBody: Ups! Did I do that?\n"
-                     "debug_test.cpp(35): TestBody: Ok... So, what now?\n";
+    const auto ref = "debug_test.cpp(35): TestBody: Ups! Did I do that?\n"
+                     "debug_test.cpp(36): TestBody: Ok... So, what now?\n";
     EXPECT_EQ(ref, debug_monitor.get_output());
 }
 
@@ -49,7 +49,7 @@ TEST(debug, fail)
     EXPECT_DEATH(ice::fail(), "");
 
     std::this_thread::sleep_for(100ms);
-    const auto ref = "debug_test.cpp(47): TestBody: failed\n";
+    const auto ref = "debug_test.cpp(49): TestBody: failed\n";
     EXPECT_EQ(ref, debug_monitor.get_output());
 }
 
@@ -71,7 +71,7 @@ TEST(debug, ensure_false)
     EXPECT_DEATH(ice::ensure(false), "");
 
     std::this_thread::sleep_for(100ms);
-    const auto ref = "debug_test.cpp(67): TestBody: ensure failed\n";
+    const auto ref = "debug_test.cpp(71): TestBody: ensure failed\n";
     EXPECT_EQ(ref, debug_monitor.get_output());
 }
 
@@ -93,7 +93,7 @@ TEST(debug, require_false)
     EXPECT_DEATH(ice::require(false), "");
 
     std::this_thread::sleep_for(100ms);
-    const auto ref = "debug_test.cpp(87): TestBody: require failed\n";
+    const auto ref = "debug_test.cpp(93): TestBody: require failed\n";
     EXPECT_EQ(ref, debug_monitor.get_output());
 }
 

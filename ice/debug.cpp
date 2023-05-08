@@ -72,7 +72,6 @@ namespace ice {
             {
                 write_crash_dump();
             }
-            MessageBoxA(nullptr, message.data(), "Unexpected Error", MB_ICONERROR | MB_OK);
         }
         #endif
 

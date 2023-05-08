@@ -24,6 +24,7 @@
 #include <atomic>
 
 #include "defines.h"
+#include "debug.h"
 
 namespace ice
 {
@@ -55,6 +56,7 @@ namespace ice
         void tick();
 
     private:
+        CrashHandler debug_handler;
         std::atomic<bool> running = false;
     };
 }
