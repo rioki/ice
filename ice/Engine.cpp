@@ -33,8 +33,27 @@ namespace ice
 
     }
 
+    bool Engine::is_running() const noexcept
+    {
+        return running;
+    }
+
     void Engine::run()
     {
+        running = true;
+        while (running)
+        {
+            tick();
+        }
+    }
 
+    void Engine::stop()
+    {
+        running = false;
+    }
+
+    void Engine::tick()
+    {
+        // TODO
     }
 }

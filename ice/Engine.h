@@ -21,17 +21,40 @@
 
 #pragma once
 
+#include <atomic>
+
 #include "defines.h"
 
 namespace ice
 {
+    //! Engine
+    //!
+    //! The Engine class ties all bits of the ice engine together.
     class ICE_EXPORT Engine
     {
     public:
+        //! Construct Engine
         Engine();
 
+        //! Destreuct Engine
         ~Engine();
 
+        //! Check if the engine is running.
+        [[nodiscard]] bool is_running() const noexcept;
+
+        //! Run the engine.
+        //!
+        //! The run function will repeatidly call tick until stop is called.
         void run();
+
+        //! Stop engine execution.
+        void stop();
+
+    protected:
+        //! Single engine tick.
+        void tick();
+
+    private:
+        std::atomic<bool> running = false;
     };
 }

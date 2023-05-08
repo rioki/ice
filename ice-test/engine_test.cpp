@@ -21,9 +21,25 @@
 
 #include <ice/Engine.h>
 
+#include <chrono>
+#include <thread>
+
+#include <c9y/async.h>
 #include <gtest/gtest.h>
 
-TEST(Engine, construct)
-{
+using namespace std::chrono_literals;
+
+TEST(Engine, construct) {
     auto engine = ice::Engine{};
+}
+
+TEST(Engine, stops) {
+    auto engine = ice::Engine{};
+
+    c9y::async([&] () {
+        std::this_thread::sleep_for(100ms);
+        engine.stop();
+    });
+
+    engine.run();
 }
