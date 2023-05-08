@@ -87,6 +87,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>echo 1 &gt; $(TargetPath).is_google_test</Command>
@@ -106,6 +107,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>echo 1 &gt; $(TargetPath).is_google_test</Command>
@@ -121,6 +123,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>echo 1 &gt; $(TargetPath).is_google_test</Command>
@@ -140,19 +143,26 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>echo 1 &gt; $(TargetPath).is_google_test</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DebugMonitor.cpp" />
+    <ClCompile Include="debug_test.cpp" />
     <ClCompile Include="engine_test.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="utils_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ice\ice.vcxproj">
       <Project>{1717a68e-f0a1-4b59-ba78-0415bd414dfe}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DebugMonitor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

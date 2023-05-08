@@ -19,11 +19,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include <mutex>
+#include <sstream>
 
-#define ICE_EXPORT __declspec(dllexport)
+#include <windows.h>
 
-// disable silly warnings
-#ifndef _MSVC
-#pragma warning(disable: 4251 4275 26812)
-#endif
+#include <ice/utils.h>
+
+namespace ice::test
+{
+    class DebugMonitor : public non_copyable
+    {
+    public:
+        DebugMonitor(bool all_processes = false);
+        ~DebugMonitor();
+
+        [[nodiscard]] std::string get_output() const noexcept;
+
+    private:
+        struct dbwin_buffer
+        {
+            DWORD dwProcessId;
+            char  data[4096-sizeof(DWORD)];
+        };
+
+        mutable std::mutex mutex;
+        std::stringstream  output;
+        HANDLE             buffer_ready_event;
+        HANDLE             data_ready_event;
+        HANDLE             mapped_file;
+        dbwin_buffer*      buffer;
+        std::jthread       thread;
+    };
+}

@@ -21,9 +21,42 @@
 
 #pragma once
 
-#define ICE_EXPORT __declspec(dllexport)
+#include <functional>
 
-// disable silly warnings
-#ifndef _MSVC
-#pragma warning(disable: 4251 4275 26812)
-#endif
+#include "debug.h"
+
+namespace ice
+{
+    //! Mark a class as non copyable.
+    class non_copyable
+    {
+    public:
+        non_copyable() = default;
+        non_copyable(const non_copyable&) = delete;
+        ~non_copyable() = default;
+        non_copyable& operator + (const non_copyable&) = delete;
+    };
+
+    //! Scoped Cleanup
+    //!
+    //! This class helps in situations where you want to ensure that something
+    //! happens at the end of a scope.
+    class cleanup : public non_copyable
+    {
+    public:
+        cleanup(const std::function<void ()>& fun) noexcept
+        : cleanup_fun(fun)
+        {
+            require(static_cast<bool>(cleanup_fun));
+        }
+
+        ~cleanup()
+        {
+            ensure(static_cast<bool>(cleanup_fun));
+            cleanup_fun();
+        }
+
+    private:
+        std::function<void ()> cleanup_fun;
+    };
+}

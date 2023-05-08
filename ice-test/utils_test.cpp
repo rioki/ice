@@ -19,11 +19,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include <ice/utils.h>
 
-#define ICE_EXPORT __declspec(dllexport)
+#include <gtest/gtest.h>
 
-// disable silly warnings
-#ifndef _MSVC
-#pragma warning(disable: 4251 4275 26812)
-#endif
+TEST(utils, cleanup) {
+    auto count = 0u;
+    {
+        auto cl = ice::cleanup([&count] () {
+            count++;
+        });
+    }
+    EXPECT_EQ(1, count);
+}
