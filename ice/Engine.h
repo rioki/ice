@@ -25,6 +25,9 @@
 
 #include "defines.h"
 #include "debug.h"
+#include "Window.h"
+#include "Keyboard.h"
+#include "Mouse.h"
 
 namespace ice
 {
@@ -58,5 +61,11 @@ namespace ice
     private:
         CrashHandler debug_handler;
         std::atomic<bool> running = false;
+
+        std::unique_ptr<Window>   window;
+        std::unique_ptr<Mouse>    mouse;
+        std::unique_ptr<Keyboard> keyboard;
+
+        void route_events();
     };
 }

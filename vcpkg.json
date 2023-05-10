@@ -2,8 +2,11 @@
   "name": "ice",
   "version": "0.1.0",
   "dependencies": [
-      "gtest",
       "c9y",
-      "libiconv"
+      "glm",
+      "gtest",
+      "libiconv",
+      "rsig",
+      "sdl2"
   ]
 }

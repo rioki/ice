@@ -21,16 +21,26 @@
 
 #include "Engine.h"
 
+#include <SDL2/SDL.h>
+
 namespace ice
 {
     Engine::Engine()
     {
+        auto r = SDL_Init(SDL_INIT_VIDEO|SDL_INIT_EVENTS);
+        if (r < 0) {
+            throw std::runtime_error("Failed to init SDL.");
+        }
+
+        window = std::make_unique<Window>(glm::uvec2(800, 600), WindowMode::STATIC, "Ice Engine");
 
     }
 
     Engine::~Engine()
     {
+        window = nullptr;
 
+        SDL_Quit();
     }
 
     bool Engine::is_running() const noexcept
@@ -54,6 +64,59 @@ namespace ice
 
     void Engine::tick()
     {
-        // TODO
+        route_events();
+        if (window)
+        {
+            window->draw();
+        }
+    }
+
+    void Engine::route_events()
+    {
+        SDL_Event event;
+
+        while (SDL_PollEvent(&event))
+        {
+            switch (event.type)
+            {
+                case SDL_QUIT:
+                    stop();
+                    break;
+
+                case SDL_WINDOWEVENT_RESIZED:
+                case SDL_WINDOWEVENT_SIZE_CHANGED:
+                case SDL_WINDOWEVENT_CLOSE:
+                    if (window)
+                    {
+                        window->handle_event(event);
+                    }
+
+                    break;
+
+                case SDL_KEYDOWN:
+                case SDL_KEYUP:
+                case SDL_TEXTINPUT:
+                case SDL_TEXTEDITING:
+                    if (keyboard)
+                    {
+                        keyboard->handle_event(event);
+                    }
+                    break;
+
+                case SDL_MOUSEBUTTONDOWN:
+                case SDL_MOUSEBUTTONUP:
+                case SDL_MOUSEMOTION:
+                    if (mouse)
+                    {
+                        mouse->handle_event(event);
+                    }
+
+                    break;
+
+                default:
+                    /* stfu */
+                    break;
+            }
+        }
     }
 }

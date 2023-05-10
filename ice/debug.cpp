@@ -83,19 +83,11 @@ namespace ice {
         do_fail(location, message);
      }
 
-    void require(bool condition, const std::source_location location) noexcept
+    void check(bool condition, const std::source_location location) noexcept
     {
         if (!condition)
         {
             fail("require failed", location);
-        }
-    }
-
-    void ensure(bool condition, const std::source_location location) noexcept
-    {
-        if (!condition)
-        {
-            fail("ensure failed", location);
         }
     }
 

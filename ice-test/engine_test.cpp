@@ -29,10 +29,6 @@
 
 using namespace std::chrono_literals;
 
-TEST(Engine, construct) {
-    auto engine = ice::Engine{};
-}
-
 TEST(Engine, stops) {
     auto engine = ice::Engine{};
 

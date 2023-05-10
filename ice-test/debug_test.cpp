@@ -53,47 +53,24 @@ TEST(debug, fail)
     EXPECT_EQ(ref, debug_monitor.get_output());
 }
 
-TEST(debug, ensure_true)
+TEST(debug, check_true)
 {
     auto debug_monitor = ice::test::DebugMonitor{true};
 
-    ice::ensure(true);
+    ice::check(true);
 
     std::this_thread::sleep_for(100ms);
     const auto ref = "";
     EXPECT_EQ(ref, debug_monitor.get_output());
 }
 
-TEST(debug, ensure_false)
+TEST(debug, check_false)
 {
     auto debug_monitor = ice::test::DebugMonitor{true};
 
-    EXPECT_DEATH(ice::ensure(false), "");
+    EXPECT_DEATH(ice::check(false), "");
 
     std::this_thread::sleep_for(100ms);
     const auto ref = "debug_test.cpp(71): TestBody: ensure failed\n";
     EXPECT_EQ(ref, debug_monitor.get_output());
 }
-
-TEST(debug, require_true)
-{
-    auto debug_monitor = ice::test::DebugMonitor{true};
-
-    ice::require(true);
-
-    std::this_thread::sleep_for(100ms);
-    const auto ref = "";
-    EXPECT_EQ(ref, debug_monitor.get_output());
-}
-
-TEST(debug, require_false)
-{
-    auto debug_monitor = ice::test::DebugMonitor{true};
-
-    EXPECT_DEATH(ice::require(false), "");
-
-    std::this_thread::sleep_for(100ms);
-    const auto ref = "debug_test.cpp(93): TestBody: require failed\n";
-    EXPECT_EQ(ref, debug_monitor.get_output());
-}
-

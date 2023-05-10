@@ -40,19 +40,12 @@ namespace ice
     //! Report failure.
     [[ noreturn ]] ICE_EXPORT void fail(const std::string_view message = "failed", const std::source_location location = std::source_location::current()) noexcept;
 
-    //! Check precondition.
+    //! Check.
     //!
     //! This function will check the condition and if false call the failure handler.
     //! If the failure handler is not overwritten, the handler will call trace and
     //! then either break in the debugger or pull a crash dump and exit.
-    ICE_EXPORT void require(bool condition, const std::source_location location = std::source_location::current()) noexcept;
-
-    //! Check postcondition.
-    //!
-    //! This function will check the condition and if false call the failure handler.
-    //! If the failure handler is not overwritten, the handler will call trace and
-    //! then either break in the debugger or pull a crash dump and exit.
-    ICE_EXPORT void ensure(bool condition, const std::source_location location = std::source_location::current()) noexcept;
+    ICE_EXPORT void check(bool condition, const std::source_location location = std::source_location::current()) noexcept;
 
     //! Entry in the Stack Trace
     struct StackFrame

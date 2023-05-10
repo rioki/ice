@@ -22,6 +22,7 @@
 #pragma once
 
 #include <functional>
+#include <type_traits>
 
 #include "debug.h"
 
@@ -41,22 +42,58 @@ namespace ice
     //!
     //! This class helps in situations where you want to ensure that something
     //! happens at the end of a scope.
-    class cleanup : public non_copyable
+    class cleanup : private non_copyable
     {
     public:
         cleanup(const std::function<void ()>& fun) noexcept
         : cleanup_fun(fun)
         {
-            require(static_cast<bool>(cleanup_fun));
+            check(static_cast<bool>(cleanup_fun));
         }
 
         ~cleanup()
         {
-            ensure(static_cast<bool>(cleanup_fun));
+            check(static_cast<bool>(cleanup_fun));
             cleanup_fun();
         }
 
     private:
         std::function<void ()> cleanup_fun;
     };
+
+    template <typename T>
+    constexpr T bit(T n)
+    {
+        return (1 << n);
+    }
+
+    #define ICE_ENUM_BIT_OPERATORS(ENUM) \
+        constexpr ENUM operator | (ENUM a, ENUM b) \
+        { \
+            return static_cast<ENUM>(static_cast<std::underlying_type_t<ENUM>>(a) | static_cast<std::underlying_type_t<ENUM>>(b)); \
+        } \
+        constexpr ENUM operator & (ENUM a, ENUM b) \
+        { \
+            return static_cast<ENUM>(static_cast<std::underlying_type_t<ENUM>>(a) & static_cast<std::underlying_type_t<ENUM>>(b)); \
+        } \
+        constexpr ENUM operator ^ (ENUM a, ENUM b) \
+        { \
+            return static_cast<ENUM>(static_cast<std::underlying_type_t<ENUM>>(a) ^ static_cast<std::underlying_type_t<ENUM>>(b)); \
+        } \
+        constexpr ENUM operator ~ (ENUM val) \
+        { \
+            return static_cast<ENUM>(~ static_cast<std::underlying_type_t<ENUM>>(val)); \
+        } \
+        constexpr ENUM& operator |= (ENUM& a, ENUM b) \
+        { \
+            return a = a | b; \
+        } \
+        constexpr ENUM& operator &= (ENUM& a, ENUM b) \
+        { \
+            return a = a & b; \
+        } \
+        constexpr ENUM& operator ^= (ENUM& a, ENUM b) \
+        { \
+            return a = a ^ b; \
+        }
 }
