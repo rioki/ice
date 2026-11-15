@@ -1,0 +1,41 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "cmake build debug",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "debug"
+      ],
+      "problemMatcher": "$gcc",
+      "group": "build"
+    },
+    {
+      "label": "cmake build profile",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "profile"
+      ],
+      "problemMatcher": "$gcc",
+      "group": "build"
+    },
+    {
+      "label": "cmake build release",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "release"
+      ],
+      "problemMatcher": "$gcc",
+      "group": "build"
+    }
+  ]
+}
