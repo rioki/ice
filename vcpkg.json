@@ -5,6 +5,7 @@
       "glm",
       "gtest",
       "magic-enum",
+      "nlohmann-json",
       "rsig",
       {
         "name": "sdl3",

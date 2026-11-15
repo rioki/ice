@@ -42,6 +42,7 @@ find_path(TINYFORMAT_INCLUDE_DIRS "tinyformat.h" REQUIRED)
 
 add_library(ice SHARED
     ice/Engine.cpp
+    ice/Settings.cpp
 )
 
 target_include_directories(ice PUBLIC . ${RSIG_INCLUDE_DIRS} ${TINYFORMAT_INCLUDE_DIRS})
@@ -58,10 +59,11 @@ target_link_libraries(ice PUBLIC
 
 add_executable(ice-test
     ice-test/test-engine.cpp
+    ice-test/test-settings.cpp
 )
 target_compile_definitions(ice-test PRIVATE GLM_ENABLE_EXPERIMENTAL)
 target_link_libraries(ice-test PRIVATE ice GTest::gtest GTest::gtest_main)
-target_compile_definitions(ice-test PRIVATE PROJECT_ROOT="${CMAKE_CURRENT_SOURCE_DIR}")
+target_compile_definitions(ice-test PRIVATE ICE_TEST_DIR="${CMAKE_CURRENT_SOURCE_DIR}/ice-test")
 
 gtest_discover_tests(ice-test)
 
