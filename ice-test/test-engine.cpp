@@ -31,11 +31,11 @@
 TEST(Engine, init)
 {
     auto engine = ice::Engine({
-        .id      = "test",
+        .id      = "ice-test",
         .version = "0.1.0"
     });
 
-    EXPECT_EQ("test",  engine.get_id());
+    EXPECT_EQ("ice-test",  engine.get_id());
     EXPECT_EQ("0.1.0", engine.get_version());
 }
 
@@ -45,7 +45,7 @@ TEST(Engine, stops)
     using namespace std::chrono_literals;
 
     auto engine = ice::Engine({
-        .id      = "test",
+        .id      = "ice-test",
         .version = "0.1.0"
     });
 
@@ -72,7 +72,7 @@ TEST(Engine, stops_on_quit)
     using namespace std::chrono_literals;
 
     auto engine = ice::Engine({
-        .id      = "test",
+        .id      = "ice-test",
         .version = "0.1.0"
     });
 
@@ -84,4 +84,27 @@ TEST(Engine, stops_on_quit)
     engine.run();
 
     f.get();
+}
+
+TEST(Engine, settings_save)
+{
+    {
+        auto engine = ice::Engine({
+            .id      = "ice-test",
+            .version = "0.1.0"
+        });
+
+        auto& settings = engine.get_settings();
+        settings.set("test", "awnser", 42u);
+    }
+
+    {
+        auto engine = ice::Engine({
+            .id      = "ice-test",
+            .version = "0.1.0"
+        });
+
+        auto& settings = engine.get_settings();
+        EXPECT_EQ(settings.get<uint32_t>("test", "awnser"), 42u);
+    }
 }

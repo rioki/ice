@@ -23,10 +23,13 @@
 #include "config.h"
 
 #include <atomic>
+#include <filesystem>
 #include <string>
 
 namespace ice
 {
+    class Settings;
+
     class ICE_API Engine
     {
     public:
@@ -43,6 +46,10 @@ namespace ice
         const std::string& get_id() const;
         const std::string& get_version() const;
 
+        const std::filesystem::path& get_settings_path() const;
+        Settings& get_settings();
+        const Settings& get_settings() const;
+
         bool is_running() const;
         void run();
         void stop();
@@ -52,6 +59,9 @@ namespace ice
         const std::string version;
 
         std::atomic<bool> running = false;
+
+        mutable std::filesystem::path settings_path_cache;
+        std::unique_ptr<Settings>     settings;
 
         void tick();
         void route_events();
