@@ -41,6 +41,12 @@ jobs:
       - name: Install CMake and Ninja
         run: python -m pip install cmake==4.2.3 ninja
 
+      - name: Install Linux build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes autoconf autoconf-archive automake libtool
+
       - name: Set up MSVC
         if: runner.os == 'Windows'
         uses: ilammy/msvc-dev-cmd@v1

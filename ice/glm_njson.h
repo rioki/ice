@@ -15,7 +15,7 @@
 namespace glm
 {
     template<glm::length_t N, typename T, qualifier Q>
-    void to_json(nlohmann::json& j, const vec<N, T, Q>& v) noexcept
+    void to_json(nlohmann::json& j, const vec<N, T, Q>& v)
     {
         j = nlohmann::json::array();
         for (auto i = 0u; i < N; i++)
@@ -35,7 +35,7 @@ namespace glm
     }
 
     template<glm::length_t N, typename T, qualifier Q>
-    void from_json(const nlohmann::json& j, vec<N, T, Q>& v)  noexcept
+    void from_json(const nlohmann::json& j, vec<N, T, Q>& v)
     {
         for (auto i = 0u; i < N; i++)
         {

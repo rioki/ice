@@ -65,5 +65,6 @@ namespace ice
 
         void tick();
         void route_events();
+        void save_settings() noexcept;
     };
 }

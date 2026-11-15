@@ -60,19 +60,11 @@ namespace ice
         {
             settings = std::make_unique<Settings>();
         }
-
-
     }
 
     Engine::~Engine()
     {
-        auto settings_file = get_settings_path();
-        auto settings_folder = settings_file.parent_path();
-        if (!std::filesystem::exists(settings_folder))
-        {
-            std::filesystem::create_directories(settings_folder);
-        }
-        settings->save(settings_file);
+        save_settings();
 
         SDL_Quit();
     }
@@ -193,6 +185,24 @@ namespace ice
                     stop();
                     break;
             }
+        }
+    }
+
+    void Engine::save_settings() noexcept
+    {
+        try
+        {
+            auto settings_file = get_settings_path();
+            auto settings_folder = settings_file.parent_path();
+            if (!std::filesystem::exists(settings_folder))
+            {
+                std::filesystem::create_directories(settings_folder);
+            }
+            settings->save(settings_file);
+        }
+        catch (const std::exception& ex)
+        {
+            // now what?!
         }
     }
 }

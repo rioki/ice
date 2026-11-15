@@ -32,6 +32,7 @@ namespace ice
         {
             throw std::runtime_error(tfm::format("Failed to open '%s' for reading.", file));
         }
+        input.exceptions(std::istream::failbit);
 
         data = nlohmann::json::parse(input);
     }
@@ -53,6 +54,7 @@ namespace ice
         {
             throw std::runtime_error(tfm::format("Failed to open '%s' for writing.", file));
         }
+        output.exceptions(std::istream::failbit);
         output << data;
     }
 }
