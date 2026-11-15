@@ -41,5 +41,26 @@ namespace ice
         return version;
     }
 
-    void Engine::run() {}
+    bool Engine::is_running() const
+    {
+        return running;
+    }
+
+    void Engine::run()
+    {
+        running = true;
+        while (running)
+        {
+            tick();
+        }
+    }
+
+    void Engine::stop()
+    {
+        running = false;
+    }
+
+    void Engine::tick()
+    {
+    }
 }

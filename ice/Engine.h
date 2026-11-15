@@ -22,6 +22,7 @@
 #pragma once
 #include "config.h"
 
+#include <atomic>
 #include <string>
 
 namespace ice
@@ -42,10 +43,16 @@ namespace ice
         const std::string& get_id() const;
         const std::string& get_version() const;
 
+        bool is_running() const;
         void run();
+        void stop();
 
     private:
         const std::string id;
         const std::string version;
+
+        std::atomic<bool> running = false;
+
+        void tick();
     };
 }

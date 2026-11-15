@@ -22,6 +22,10 @@
 #include <ice/ice.h>
 #include <gtest/gtest.h>
 
+#include <thread>
+#include <chrono>
+#include <future>
+
 TEST(Engine, init)
 {
     auto engine = ice::Engine({
@@ -31,4 +35,24 @@ TEST(Engine, init)
 
     EXPECT_EQ("test",  engine.get_id());
     EXPECT_EQ("0.1.0", engine.get_version());
+}
+
+
+TEST(Engine, stops)
+{
+    using namespace std::chrono_literals;
+
+    auto engine = ice::Engine({
+        .id      = "test",
+        .version = "0.1.0"
+    });
+
+    auto f = std::async(std::launch::async, [&engine] () {
+        std::this_thread::sleep_for(100ms);
+        engine.stop();
+    });
+
+    engine.run();
+
+    f.get();
 }
