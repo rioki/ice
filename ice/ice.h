@@ -22,4 +22,5 @@
 #pragma once
 
 #include "Engine.h"
+#include "Settings.h"
 

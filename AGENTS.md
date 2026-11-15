@@ -45,6 +45,8 @@ ctest --preset debug -R 'Engine\.'
 - Match surrounding C++ style: four-space indentation and braces on their own lines.
 - Keep engine code in namespace `ice`; use PascalCase for types and snake_case
   for functions and variables.
+- Do not use anonymous namespaces. Name collisions almost always indicate a need
+  to refactor; address the underlying structure instead of hiding the collision.
 - Use `.h` and `.cpp` files, with `#pragma once` in headers.
 - Mark public shared-library classes/functions with `ICE_API`; preserve the
   Windows and non-Windows visibility handling in `ice/config.h`.
