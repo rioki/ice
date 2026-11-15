@@ -20,11 +20,13 @@
 // SOFTWARE.
 
 #include <ice/ice.h>
-#include <gtest/gtest.h>
 
 #include <thread>
 #include <chrono>
 #include <future>
+
+#include <gtest/gtest.h>
+#include <SDL3/SDL.h>
 
 TEST(Engine, init)
 {
@@ -50,6 +52,33 @@ TEST(Engine, stops)
     auto f = std::async(std::launch::async, [&engine] () {
         std::this_thread::sleep_for(100ms);
         engine.stop();
+    });
+
+    engine.run();
+
+    f.get();
+}
+
+void inject_quit()
+{
+    auto sdl_event = SDL_Event{};
+    sdl_event.type = SDL_EVENT_QUIT;
+    sdl_event.quit.timestamp = SDL_GetTicks();
+    SDL_PushEvent(&sdl_event);
+}
+
+TEST(Engine, stops_on_quit)
+{
+    using namespace std::chrono_literals;
+
+    auto engine = ice::Engine({
+        .id      = "test",
+        .version = "0.1.0"
+    });
+
+    auto f = std::async(std::launch::async, [&engine] () {
+        std::this_thread::sleep_for(100ms);
+        inject_quit();
     });
 
     engine.run();

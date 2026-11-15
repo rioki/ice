@@ -32,18 +32,28 @@ include(GoogleTest)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
+find_package(glm CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)
+find_package(SDL3 CONFIG REQUIRED)
+
+find_path(RSIG_INCLUDE_DIRS "rsig/rsig.h" REQUIRED)
+find_path(TINYFORMAT_INCLUDE_DIRS "tinyformat.h" REQUIRED)
 
 add_library(ice SHARED
     ice/Engine.cpp
 )
 
-target_include_directories(ice PUBLIC . ${RSIG_INCLUDE_DIRS})
+target_include_directories(ice PUBLIC . ${RSIG_INCLUDE_DIRS} ${TINYFORMAT_INCLUDE_DIRS})
 target_compile_definitions(ice PRIVATE ICE_BUILD)
 set_target_properties(ice PROPERTIES
     CXX_VISIBILITY_PRESET hidden
     C_VISIBILITY_PRESET hidden
     VISIBILITY_INLINES_HIDDEN ON
+)
+target_link_libraries(ice PUBLIC
+    glm::glm
+    SDL3::SDL3
 )
 
 add_executable(ice-test

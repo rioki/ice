@@ -54,5 +54,6 @@ namespace ice
         std::atomic<bool> running = false;
 
         void tick();
+        void route_events();
     };
 }

@@ -21,15 +21,26 @@
 
 #include "Engine.h"
 
+#include <stdexcept>
+
+#include <SDL3/SDL.h>
+
 namespace ice
 {
     Engine::Engine(Init init)
     : id(init.id), version(init.version)
     {
-
+        auto r = SDL_Init(SDL_INIT_VIDEO|SDL_INIT_EVENTS);
+        if (r == false)
+        {
+            throw std::runtime_error(SDL_GetError());
+        }
     }
 
-    Engine::~Engine() {}
+    Engine::~Engine()
+    {
+        SDL_Quit();
+    }
 
     const std::string& Engine::get_id() const
     {
@@ -62,5 +73,21 @@ namespace ice
 
     void Engine::tick()
     {
+        route_events();
+        // window->draw()
+    }
+
+    void Engine::route_events()
+    {
+        auto event = SDL_Event{};
+        while (SDL_PollEvent(&event))
+        {
+            switch (event.type)
+            {
+                case SDL_EVENT_QUIT:
+                    stop();
+                    break;
+            }
+        }
     }
 }

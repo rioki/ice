@@ -2,6 +2,18 @@
   "name": "ice",
   "version": "0.1.0",
   "dependencies": [
-      "gtest"
+      "glm",
+      "gtest",
+      "magic-enum",
+      "rsig",
+      {
+        "name": "sdl3",
+        "default-features": false,
+        "features": [
+          { "name": "alsa", "platform": "linux" },
+          { "name": "x11", "platform": "linux" }
+        ]
+      },
+      "tinyformat"
   ]
 }
