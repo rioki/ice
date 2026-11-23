@@ -38,11 +38,13 @@ find_path(TINYFORMAT_INCLUDE_DIRS "tinyformat.h" REQUIRED)
 
 add_library(ice SHARED
     ice/Engine.cpp
-    ice/Settings.cpp
-    ice/Window.cpp
     ice/glad.cpp
+    ice/Keyboard.cpp
+    ice/Mouse.cpp
     ice/opengl.cpp
+    ice/Settings.cpp
     ice/trace.cpp
+    ice/Window.cpp
 )
 
 target_include_directories(ice PUBLIC . ${RSIG_INCLUDE_DIRS} ${TINYFORMAT_INCLUDE_DIRS})
