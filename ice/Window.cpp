@@ -51,7 +51,7 @@ namespace ice
         SDL_SetStringProperty(props, SDL_PROP_WINDOW_CREATE_TITLE_STRING,        init.title.data());
         SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER,        init.size.x);
         SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER,       init.size.y);
-        SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_X_NUMBER,            init.position.y);
+        SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_X_NUMBER,            init.position.x);
         SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_Y_NUMBER,            init.position.y);
         SDL_SetBooleanProperty(props, SDL_PROP_WINDOW_CREATE_FULLSCREEN_BOOLEAN, init.fullscreen);
         SDL_SetBooleanProperty(props, SDL_PROP_WINDOW_CREATE_OPENGL_BOOLEAN,     true);

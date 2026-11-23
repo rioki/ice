@@ -86,7 +86,7 @@ namespace ice
         catch (const std::exception& ex)
         {
             trace(ex.what());
-            throw;
+            std::terminate();
         }
     }
 
@@ -217,11 +217,14 @@ namespace ice
                 case SDL_EVENT_QUIT:
                     stop();
                     break;
+                case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
+                    window->handle_event(event);
+                    break;
             }
         }
     }
 
-    void Engine::save_settings() noexcept
+    void Engine::save_settings()
     {
         auto settings_file = get_settings_path();
         auto settings_folder = settings_file.parent_path();
