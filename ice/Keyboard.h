@@ -27,6 +27,10 @@
 #include <SDL3/SDL.h>
 #include <rsig/rsig.h>
 
+#ifdef DELETE
+#undef DELETE
+#endif
+
 namespace ice
 {
     class EventRouter;

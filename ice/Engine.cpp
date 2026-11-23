@@ -83,17 +83,16 @@ namespace ice
             settings->set("Window", "position",   window->get_position());
             settings->set("Window", "fullscreen", window->get_fullscreen());
             save_settings();
-
-            keyboard = nullptr;
-            mouse    = nullptr;
-            window   = nullptr;
-            SDL_Quit();
         }
         catch (const std::exception& ex)
         {
             trace(ex.what());
-            std::terminate();
         }
+
+        keyboard = nullptr;
+        mouse    = nullptr;
+        window   = nullptr;
+        SDL_Quit();
     }
 
     const std::string& Engine::get_id() const
