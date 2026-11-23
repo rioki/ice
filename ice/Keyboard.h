@@ -31,10 +31,12 @@
 #undef DELETE
 #endif
 
+#ifdef OUT
+#undef OUT
+#endif
+
 namespace ice
 {
-    class EventRouter;
-
     enum class Scancode : std::underlying_type_t<SDL_Scancode>
     {
         UNKNOWN              = SDL_SCANCODE_UNKNOWN,
