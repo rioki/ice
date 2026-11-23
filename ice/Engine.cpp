@@ -248,7 +248,11 @@ namespace ice
                 case SDL_EVENT_MOUSE_WHEEL:
                     mouse->handle_event(event);
                     break;
-            }
+                case SDL_EVENT_KEY_DOWN:
+                case SDL_EVENT_KEY_UP:
+                    keyboard->handle_event(event);
+                    break;
+                }
         }
     }
 
