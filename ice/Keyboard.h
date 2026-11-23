@@ -403,11 +403,6 @@ namespace ice
     class ICE_API Keyboard
     {
     public:
-        struct Init
-        {
-            EventRouter& router;
-        };
-
         Keyboard() = default;
         ~Keyboard() = default;
 
