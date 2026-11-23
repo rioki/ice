@@ -38,7 +38,9 @@
 #endif
 
 #include "stdng.h"
+#include "trace.h"
 #include "Settings.h"
+#include "Window.h"
 
 namespace ice
 {
@@ -60,13 +62,32 @@ namespace ice
         {
             settings = std::make_unique<Settings>();
         }
+
+        window = std::make_unique<Window>(Window::Init{
+            .title      = tfm::format("%s (%s)", id, version),
+            .size       = settings->get("Window", "size",       glm::uvec2(800, 600)),
+            .position   = settings->get("Window", "position",   Window::CENTER_POSITION),
+            .fullscreen = settings->get("Window", "fullscreen", false)
+        });
     }
 
     Engine::~Engine()
     {
-        save_settings();
+        try
+        {
+            settings->set("Window", "size",       window->get_size());
+            settings->set("Window", "position",   window->get_position());
+            settings->set("Window", "fullscreen", window->get_fullscreen());
+            save_settings();
 
-        SDL_Quit();
+            window = nullptr;
+            SDL_Quit();
+        }
+        catch (const std::exception& ex)
+        {
+            trace(ex.what());
+            std::terminate();
+        }
     }
 
     const std::string& Engine::get_id() const
@@ -149,6 +170,18 @@ namespace ice
         return *settings;
     }
 
+    Window& Engine::get_window()
+    {
+        assert(window);
+        return *window;
+    }
+
+    const Window& Engine::get_window() const
+    {
+        assert(window);
+        return *window;
+    }
+
     bool Engine::is_running() const
     {
         return running;
@@ -171,7 +204,7 @@ namespace ice
     void Engine::tick()
     {
         route_events();
-        // window->draw()
+        window->draw();
     }
 
     void Engine::route_events()
@@ -184,25 +217,21 @@ namespace ice
                 case SDL_EVENT_QUIT:
                     stop();
                     break;
+                case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
+                    window->handle_event(event);
+                    break;
             }
         }
     }
 
-    void Engine::save_settings() noexcept
+    void Engine::save_settings()
     {
-        try
+        auto settings_file = get_settings_path();
+        auto settings_folder = settings_file.parent_path();
+        if (!std::filesystem::exists(settings_folder))
         {
-            auto settings_file = get_settings_path();
-            auto settings_folder = settings_file.parent_path();
-            if (!std::filesystem::exists(settings_folder))
-            {
-                std::filesystem::create_directories(settings_folder);
-            }
-            settings->save(settings_file);
+            std::filesystem::create_directories(settings_folder);
         }
-        catch (const std::exception& ex)
-        {
-            // now what?!
-        }
+        settings->save(settings_file);
     }
 }

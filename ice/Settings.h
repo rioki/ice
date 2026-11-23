@@ -27,6 +27,7 @@
 
 #include <tinyformat.h>
 #include <nlohmann/json.hpp>
+#include "glm_njson.h"
 
 namespace ice
 {

@@ -24,11 +24,15 @@
 #include <stdexcept>
 
 #include <ice/ice.h>
+#include <ice/trace.h>
 
 int main(int argc, const char* argv[])
 {
     try
     {
+        ice::on_trace([] (auto msg) {
+            std::cout << msg;
+        });
         auto engine = ice::Engine({
             .id      = "ice-sandbox",
             .version = "0.1.0"
@@ -38,12 +42,12 @@ int main(int argc, const char* argv[])
     }
     catch (const std::exception& ex)
     {
-        std::cerr << ex.what() << std::endl;
+        ice::trace(ex.what());
         return EXIT_FAILURE;
     }
     catch (...)
     {
-        std::cerr << "Unknown error." << std::endl;
+        ice::trace("Unknown Exception.");
         return EXIT_FAILURE;
     }
 }

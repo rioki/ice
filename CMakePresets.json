@@ -57,31 +57,5 @@
       "displayName": "Build Release",
       "configurePreset": "release"
     }
-  ],
-  "testPresets": [
-    {
-      "name": "debug",
-      "displayName": "Test Debug",
-      "configurePreset": "debug",
-      "output": {
-        "outputOnFailure": true
-      }
-    },
-    {
-      "name": "profile",
-      "displayName": "Test Profile",
-      "configurePreset": "profile",
-      "output": {
-        "outputOnFailure": true
-      }
-    },
-    {
-      "name": "release",
-      "displayName": "Test Release",
-      "configurePreset": "release",
-      "output": {
-        "outputOnFailure": true
-      }
-    }
   ]
 }
