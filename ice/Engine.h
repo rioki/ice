@@ -30,6 +30,8 @@ namespace ice
 {
     class Settings;
     class Window;
+    class Mouse;
+    class Keyboard;
 
     class ICE_API Engine
     {
@@ -54,6 +56,12 @@ namespace ice
         Window& get_window();
         const Window& get_window() const;
 
+        Mouse& get_mouse();
+        const Mouse& get_mouse() const;
+
+        Keyboard& get_keyboard();
+        const Keyboard& get_keyboard() const;
+
         bool is_running() const;
         void run();
         void stop();
@@ -68,6 +76,8 @@ namespace ice
         std::unique_ptr<Settings>     settings;
 
         std::unique_ptr<Window>       window;
+        std::unique_ptr<Mouse>        mouse;
+        std::unique_ptr<Keyboard>     keyboard;
 
         void tick();
         void route_events();

@@ -21,7 +21,6 @@
 
 #include "Engine.h"
 
-#include <cassert>
 #include <cstdlib>
 
 #include <stdexcept>
@@ -41,6 +40,8 @@
 #include "trace.h"
 #include "Settings.h"
 #include "Window.h"
+#include "Mouse.h"
+#include "Keyboard.h"
 
 namespace ice
 {
@@ -69,6 +70,9 @@ namespace ice
             .position   = settings->get("Window", "position",   Window::CENTER_POSITION),
             .fullscreen = settings->get("Window", "fullscreen", false)
         });
+
+        mouse    = std::make_unique<Mouse>();
+        keyboard = std::make_unique<Keyboard>();
     }
 
     Engine::~Engine()
@@ -80,7 +84,9 @@ namespace ice
             settings->set("Window", "fullscreen", window->get_fullscreen());
             save_settings();
 
-            window = nullptr;
+            keyboard = nullptr;
+            mouse    = nullptr;
+            window   = nullptr;
             SDL_Quit();
         }
         catch (const std::exception& ex)
@@ -160,26 +166,42 @@ namespace ice
 
     Settings& Engine::get_settings()
     {
-        assert(settings);
         return *settings;
     }
 
     const Settings& Engine::get_settings() const
     {
-        assert(settings);
         return *settings;
     }
 
     Window& Engine::get_window()
     {
-        assert(window);
         return *window;
     }
 
     const Window& Engine::get_window() const
     {
-        assert(window);
         return *window;
+    }
+
+    Mouse& Engine::get_mouse()
+    {
+        return *mouse;
+    }
+
+    const Mouse& Engine::get_mouse() const
+    {
+        return *mouse;
+    }
+
+    Keyboard& Engine::get_keyboard()
+    {
+        return *keyboard;
+    }
+
+    const Keyboard& Engine::get_keyboard() const
+    {
+        return *keyboard;
     }
 
     bool Engine::is_running() const
@@ -219,6 +241,12 @@ namespace ice
                     break;
                 case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
                     window->handle_event(event);
+                    break;
+                case SDL_EVENT_MOUSE_BUTTON_DOWN:
+                case SDL_EVENT_MOUSE_BUTTON_UP:
+                case SDL_EVENT_MOUSE_MOTION:
+                case SDL_EVENT_MOUSE_WHEEL:
+                    mouse->handle_event(event);
                     break;
             }
         }
