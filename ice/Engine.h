@@ -29,6 +29,7 @@
 namespace ice
 {
     class Settings;
+    class Window;
 
     class ICE_API Engine
     {
@@ -50,6 +51,9 @@ namespace ice
         Settings& get_settings();
         const Settings& get_settings() const;
 
+        Window& get_window();
+        const Window& get_window() const;
+
         bool is_running() const;
         void run();
         void stop();
@@ -62,6 +66,8 @@ namespace ice
 
         mutable std::filesystem::path settings_path_cache;
         std::unique_ptr<Settings>     settings;
+
+        std::unique_ptr<Window>       window;
 
         void tick();
         void route_events();

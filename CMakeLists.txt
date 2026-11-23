@@ -26,15 +26,11 @@ project(adastra
     LANGUAGES CXX
 )
 
-include(CTest)
-include(GoogleTest)
-
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 find_package(glm CONFIG REQUIRED)
-find_package(GTest CONFIG REQUIRED)
 find_package(SDL3 CONFIG REQUIRED)
 
 find_path(RSIG_INCLUDE_DIRS "rsig/rsig.h" REQUIRED)
@@ -43,6 +39,10 @@ find_path(TINYFORMAT_INCLUDE_DIRS "tinyformat.h" REQUIRED)
 add_library(ice SHARED
     ice/Engine.cpp
     ice/Settings.cpp
+    ice/Window.cpp
+    ice/glad.cpp
+    ice/opengl.cpp
+    ice/trace.cpp
 )
 
 target_include_directories(ice PUBLIC . ${RSIG_INCLUDE_DIRS} ${TINYFORMAT_INCLUDE_DIRS})
@@ -56,16 +56,6 @@ target_link_libraries(ice PUBLIC
     glm::glm
     SDL3::SDL3
 )
-
-add_executable(ice-test
-    ice-test/test-engine.cpp
-    ice-test/test-settings.cpp
-)
-target_compile_definitions(ice-test PRIVATE GLM_ENABLE_EXPERIMENTAL)
-target_link_libraries(ice-test PRIVATE ice GTest::gtest GTest::gtest_main)
-target_compile_definitions(ice-test PRIVATE ICE_TEST_DIR="${CMAKE_CURRENT_SOURCE_DIR}/ice-test")
-
-gtest_discover_tests(ice-test)
 
 add_executable(ice-lab
     ice-lab/main.cpp

@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "dependencies": [
       "glm",
-      "gtest",
       "magic-enum",
       "nlohmann-json",
       "rsig",
